@@ -10,52 +10,102 @@ export class Order extends React.Component {
     super(props);
     this.state = {
       startDate: new Date(),
-      minutes: '',
-      hours: ''
+      endDate: new Date(),
+      startMinutes: '',
+      startHours: '',
+      endMinutes: '',
+      endHours: ''
+
     };
 
     this.onChangeMin = this.onChangeMin.bind(this);
     this.onChangeHours = this.onChangeHours.bind(this);
   }
 
-  handleChange = date => {
+  handleChangeStart = (date) => {
     this.setState({
       startDate: date,
     });
   };
+  handleChangeEnd = (date) => {
+    this.setState({
+      endDate: date,
+    });
+  };
   onChangeMin = (event) => {
     this.setState({
-      minutes: event.target.value
+      startMinutes: event.target.value,
+      endMinutes: event.target.value
     });
   };
   onChangeHours = (event) => {
     this.setState({
-      hours: event.target.value
+      startHours: event.target.value,
+      endHours: event.target.value
     });
   }
   render() {
     return (
       <WrapperOrder>
         <WidthWrapperOrder>
-          <Titleorder>Введите название заказа</Titleorder>
-          <InputNameOrder type="text" />
-          <Titleorder>Введите краткое описание</Titleorder>
-          <Message type="text" />
-          <br></br>
-          <span>Введите дату</span>
-          <DatePicker selected={this.state.startDate} onChange={this.handleChange} />
-          <br></br>
-          <span>Введите часы</span>
-          <input type="text" name="hours" value={this.state.hours} onChange={this.onChangeHours}></input>
-          <br></br>
-          <span>Введите минуты</span>
-          <input type="text" name="minutes" value={this.state.minutes} onChange={this.onChangeMin}></input>
+          <form>
+            <Titleorder>Введите название заказа</Titleorder>
+            <InputNameOrder type="text" />
+            <Titleorder>Введите краткое описание</Titleorder>
+            <Message type="text" />
+            <Titleorder>Начало</Titleorder>
+            <TextLine>Введите дату</TextLine>
+            <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart} />
+            <TextLine>Введите часы</TextLine>
+            <input
+              type="number"
+              min="1"
+              max="24"
+              name="hours"
+              value={this.state.hours}
+              onChange={this.onChangeHours} />
+            <TextLine>Введите минуты</TextLine>
+            <input
+              type="number"
+              min="0"
+              max="60"
+              name="minutes"
+              value={this.state.minutes}
+              onChange={this.onChangeMin} />
+            <Titleorder>Конец</Titleorder>
+            <TextLine>Введите дату</TextLine>
+            <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd} />
+            <TextLine>Введите часы</TextLine>
+            <input
+              type="number"
+              min="1"
+              max="24"
+              name="hours"
+              value={this.state.hours}
+              onChange={this.onChangeHours}>
+            </input>
+            <br></br>
+            <TextLine>Введите минуты</TextLine>
+            <input
+              type="number"
+              min="0"
+              max="60"
+              name="minutes"
+              value={this.state.minutes}
+              onChange={this.onChangeMin}>
+            </input>
+          </form>
         </WidthWrapperOrder>
       </WrapperOrder>
     );
   }
 }
 export default Order;
+
+const TextLine = styled.span`
+display:block;
+width:150px;
+`;
 
 const InputNameOrder = styled.input`
 box-sizing:border-box;
@@ -66,17 +116,6 @@ border:none;
 &:focus{
   outline:none;
 }
-`;
-
-const Inputhours = styled.input`
-
-`;
-
-const Inputminutes = styled.input`
-
-`;
-const Inputdate = styled.input`
-
 `;
 const Titleorder = styled.h2`
   padding-top:40px;
