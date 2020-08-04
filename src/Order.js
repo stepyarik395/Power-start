@@ -48,59 +48,85 @@ export class Order extends React.Component {
     return (
       <WrapperOrder>
         <WidthWrapperOrder>
-          <form>
+          <FormSettings>
             <Titleorder>Введите название заказа</Titleorder>
             <InputNameOrder type="text" />
             <Titleorder>Введите краткое описание</Titleorder>
             <Message type="text" />
-            <Titleorder>Начало</Titleorder>
-            <TextLine>Введите дату</TextLine>
-            <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart} />
-            <TextLine>Введите часы</TextLine>
-            <input
-              type="number"
-              min="1"
-              max="24"
-              name="hours"
-              value={this.state.hours}
-              onChange={this.onChangeHours} />
-            <TextLine>Введите минуты</TextLine>
-            <input
-              type="number"
-              min="0"
-              max="60"
-              name="minutes"
-              value={this.state.minutes}
-              onChange={this.onChangeMin} />
-            <Titleorder>Конец</Titleorder>
-            <TextLine>Введите дату</TextLine>
-            <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd} />
-            <TextLine>Введите часы</TextLine>
-            <input
-              type="number"
-              min="1"
-              max="24"
-              name="hours"
-              value={this.state.hours}
-              onChange={this.onChangeHours}>
-            </input>
-            <br></br>
-            <TextLine>Введите минуты</TextLine>
-            <input
-              type="number"
-              min="0"
-              max="60"
-              name="minutes"
-              value={this.state.minutes}
-              onChange={this.onChangeMin}>
-            </input>
-          </form>
+            <FlexContainer>
+              <div>
+                <Titleorder>Начало</Titleorder>
+                <TextLine>Введите дату</TextLine>
+                <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart} />
+                <TextLine>Введите часы</TextLine>
+                <input
+                  type="number"
+                  min="1"
+                  max="24"
+                  name="hours"
+                  value={this.state.hours}
+                  onChange={this.onChangeHours} />
+                <TextLine>Введите минуты</TextLine>
+                <input
+                  type="number"
+                  min="0"
+                  max="60"
+                  name="minutes"
+                  value={this.state.minutes}
+                  onChange={this.onChangeMin} />
+              </div>
+              <div>
+                <Titleorder>Конец</Titleorder>
+                <TextLine>Введите дату</TextLine>
+                <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd} />
+                <TextLine>Введите часы</TextLine>
+                <input
+                  type="number"
+                  min="1"
+                  max="24"
+                  name="hours"
+                  value={this.state.hours}
+                  onChange={this.onChangeHours}>
+                </input>
+                <br></br>
+                <TextLine>Введите минуты</TextLine>
+                <input
+                  type="number"
+                  min="0"
+                  max="60"
+                  name="minutes"
+                  value={this.state.minutes}
+                  onChange={this.onChangeMin}>
+                </input>
+              </div>
+            </FlexContainer>
+            <ButtonSubmit type="submit" />
+          </FormSettings>
         </WidthWrapperOrder>
       </WrapperOrder>
     );
   }
 }
 export default Order;
+
+const FormSettings = styled.form`
+display:flex;
+flex-direction:column;
+`;
+
+const FlexContainer = styled.div`
+display:flex;
+justify-content:space-between;
+`;
+
+const ButtonSubmit = styled.input`
+align-self:center;
+cursor:pointer;
+text-transform:uppercase;
+margin-top:20px;
+width:200px;
+display:block;
+`;
 
 const TextLine = styled.span`
 display:block;
