@@ -2,7 +2,20 @@ import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from 'styled-components'
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+
+
+const MyMarker = props => {
+
+  const initMarker = ref => {
+    // if (ref) {
+    //   ref.leafletElement.openPopup()
+    // }
+  }
+
+  return <Marker ref={initMarker} {...props} />
+}
+
 
 
 export class Order extends React.Component {
@@ -17,9 +30,13 @@ export class Order extends React.Component {
       endMinutes: '',
       endHours: '',
       showInpFixPayment: false,
-      showInpPaymentHour: false
+      showInpPaymentHour: false,
+      currentPos: ''
 
     };
+  }
+  addMarker = (e) => {
+    this.setState({ currentPos: e.latlng });
   }
 
   handleChangeStart = (date) => {
@@ -60,54 +77,53 @@ export class Order extends React.Component {
   }
 
   render() {
+    console.log(this.state.currentPos)
     const showInpPaymentHour = this.state.showInpPaymentHour;
     const showInpFixPayment = this.state.showInpFixPayment;
     let button;
     if (showInpPaymentHour) {
-      button = <input type="text" maxLength="3" placeholder="perhour" />
+      button = <input required type="text" maxLength="3" placeholder="perhour" />
     }
     if (showInpFixPayment) {
-      button = <input type="text" maxLength="3" placeholder="fixpayment" />
+      button = <input required type="text" maxLength="3" placeholder="fixpayment" />
     }
     return (
       <WrapperOrder>
         <WidthWrapperOrder>
           <FormSettings>
             <Titleorder>Введите название заказа</Titleorder>
-            <InputNameOrder type="text" />
-            <Titleorder>Введите краткое описание</Titleorder>
-            <Message type="text" />
+            <InputNameOrder required type="text" />
+            <Titleorder >Введите краткое описание</Titleorder>
+            <Message required type="text" />
             <h2>Способ оплаты</h2>
             <BlockPayment>
               <label>Фиксированная цена</label>
-              <input onChange={this.handleChangePayment} value="fixprice" type="radio" name="payment" />
+              <input
+                onChange={this.handleChangePayment}
+                value="fixprice"
+                type="radio"
+                name="payment"
+                required
+              />
               <label>Оплата за час</label>
-              <input value="hourprice" name="payment" onChange={this.handleChangePayment} type="radio" />
+              <input
+                value="hourprice"
+                name="payment"
+                onChange={this.handleChangePayment}
+                type="radio"
+                required />
               {button}
             </BlockPayment>
-            <h2>Адресс</h2>
-            <LeafletMap
-              center={[47, 35]}
-              zoom={6}
-              maxZoom={30}
-              attributionControl={true}
-              zoomControl={true}
-              doubleClickZoom={true}
-              scrollWheelZoom={true}
-              dragging={true}
-              animate={true}
-              easeLinearity={0.35}
-            >
-              <TileLayer
-                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-              />
-              <Marker position={[50, 10]}>
-                <Popup>
-                  Popup for any custom information.
-          </Popup>
-              </Marker>
-            </LeafletMap>
-
+            <br />
+            <Map center={{ lat: 47.82289, lng: 35.19031 }} zoom={10} onClick={this.addMarker}>
+              <TileLayer url='https://{s}.tile.osm.org/{z}/{x}/{y}.png' />
+              {this.state.currentPos && <MyMarker position={this.state.currentPos}>
+                <Popup position={this.state.currentPos}>
+                  Current location: <pre>{JSON.stringify(this.state.currentPos, null, 2)}</pre>
+                </Popup>
+              </MyMarker>}
+            </Map>
+            <h2>Адресс {Object.entries(this.state.currentPos)}</h2> <input required type="text" />
             <FlexContainer>
               <div>
                 <Titleorder>Начало</Titleorder>
@@ -115,6 +131,7 @@ export class Order extends React.Component {
                 <DatePicker selected={this.state.startDate} onChange={this.handleChangeStart} />
                 <TextLine>Введите часы</TextLine>
                 <input
+                  required
                   type="number"
                   min="1"
                   max="24"
@@ -123,6 +140,7 @@ export class Order extends React.Component {
                   onChange={this.onChangeHours} />
                 <TextLine>Введите минуты</TextLine>
                 <input
+                  required
                   type="number"
                   min="0"
                   max="60"
@@ -136,6 +154,7 @@ export class Order extends React.Component {
                 <DatePicker selected={this.state.endDate} onChange={this.handleChangeEnd} />
                 <TextLine>Введите часы</TextLine>
                 <input
+                  required
                   type="number"
                   min="1"
                   max="24"
@@ -146,6 +165,7 @@ export class Order extends React.Component {
                 <br></br>
                 <TextLine>Введите минуты</TextLine>
                 <input
+                  required
                   type="number"
                   min="0"
                   max="60"
