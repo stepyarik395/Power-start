@@ -14,12 +14,11 @@ export class Order extends React.Component {
       startMinutes: '',
       startHours: '',
       endMinutes: '',
-      endHours: ''
+      endHours: '',
+      showInpFixPayment: false,
+      showInpPaymentHour: false
 
     };
-
-    this.onChangeMin = this.onChangeMin.bind(this);
-    this.onChangeHours = this.onChangeHours.bind(this);
   }
 
   handleChangeStart = (date) => {
@@ -44,7 +43,31 @@ export class Order extends React.Component {
       endHours: event.target.value
     });
   }
+  handleChangePayment = (event) => {
+    if (event.target.value === "fixprice") {
+      this.setState({
+        showInpFixPayment: !this.state.showInpFixPayment,
+        showInpPaymentHour: false
+      });
+    } else {
+      this.setState({
+        showInpPaymentHour: !this.state.showInpPaymentHour,
+        showInpFixPayment: false
+      });
+    }
+
+  }
+
   render() {
+    const showInpPaymentHour = this.state.showInpPaymentHour;
+    const showInpFixPayment = this.state.showInpFixPayment;
+    let button;
+    if (showInpPaymentHour) {
+      button = <input type="text" maxLength="3" placeholder="perhour" />
+    }
+    if (showInpFixPayment) {
+      button = <input type="text" maxLength="3" placeholder="fixpayment" />
+    }
     return (
       <WrapperOrder>
         <WidthWrapperOrder>
@@ -53,6 +76,14 @@ export class Order extends React.Component {
             <InputNameOrder type="text" />
             <Titleorder>Введите краткое описание</Titleorder>
             <Message type="text" />
+            <h2>Способ оплаты</h2>
+            <BlockPayment>
+              <label>Фиксированная цена</label>
+              <input onChange={this.handleChangePayment} value="fixprice" type="radio" name="payment" />
+              <label>Оплата за час</label>
+              <input value="hourprice" name="payment" onChange={this.handleChangePayment} type="radio" />
+              {button}
+            </BlockPayment>
             <FlexContainer>
               <div>
                 <Titleorder>Начало</Titleorder>
@@ -109,6 +140,15 @@ export class Order extends React.Component {
 }
 export default Order;
 
+const BlockPayment = styled.div`
+
+input{
+}
+label{
+ padding:10px;
+}
+
+`;
 const FormSettings = styled.form`
 display:flex;
 flex-direction:column;
