@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from 'styled-components'
+import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
 export class Order extends React.Component {
@@ -84,6 +85,29 @@ export class Order extends React.Component {
               <input value="hourprice" name="payment" onChange={this.handleChangePayment} type="radio" />
               {button}
             </BlockPayment>
+            <h2>Адресс</h2>
+            <LeafletMap
+              center={[47, 35]}
+              zoom={6}
+              maxZoom={30}
+              attributionControl={true}
+              zoomControl={true}
+              doubleClickZoom={true}
+              scrollWheelZoom={true}
+              dragging={true}
+              animate={true}
+              easeLinearity={0.35}
+            >
+              <TileLayer
+                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+              />
+              <Marker position={[50, 10]}>
+                <Popup>
+                  Popup for any custom information.
+          </Popup>
+              </Marker>
+            </LeafletMap>
+
             <FlexContainer>
               <div>
                 <Titleorder>Начало</Titleorder>
@@ -134,7 +158,7 @@ export class Order extends React.Component {
             <ButtonSubmit type="submit" />
           </FormSettings>
         </WidthWrapperOrder>
-      </WrapperOrder>
+      </WrapperOrder >
     );
   }
 }
