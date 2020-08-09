@@ -33,6 +33,7 @@ export class Order extends React.Component {
       showInpPaymentHour: false,
       currentPos: ''
 
+
     };
   }
   addMarker = (e) => {
@@ -77,15 +78,17 @@ export class Order extends React.Component {
   }
 
   render() {
-    console.log(this.state.currentPos)
+    // const latcordinates = this.state.currentPos.lat;
+    // const lancordinates = this.state.currentPos.len;
     const showInpPaymentHour = this.state.showInpPaymentHour;
     const showInpFixPayment = this.state.showInpFixPayment;
-    let button;
+    let inpcontainer;
+    //  showInpPaymentHour ? return 
     if (showInpPaymentHour) {
-      button = <input required type="text" maxLength="3" placeholder="perhour" />
+      inpcontainer = <input required type="text" maxLength="3" placeholder="perhour" />
     }
     if (showInpFixPayment) {
-      button = <input required type="text" maxLength="3" placeholder="fixpayment" />
+      inpcontainer = <input required type="text" maxLength="3" placeholder="fixpayment" />
     }
     return (
       <WrapperOrder>
@@ -112,9 +115,10 @@ export class Order extends React.Component {
                 onChange={this.handleChangePayment}
                 type="radio"
                 required />
-              {button}
+              {inpcontainer}
             </BlockPayment>
             <br />
+            <label>Поставле указатель для указания кординат </label>
             <Map center={{ lat: 47.82289, lng: 35.19031 }} zoom={10} onClick={this.addMarker}>
               <TileLayer url='https://{s}.tile.osm.org/{z}/{x}/{y}.png' />
               {this.state.currentPos && <MyMarker position={this.state.currentPos}>
@@ -123,7 +127,7 @@ export class Order extends React.Component {
                 </Popup>
               </MyMarker>}
             </Map>
-            <h2>Адресс {Object.entries(this.state.currentPos)}</h2> <input required type="text" />
+            <h2>Адресс</h2><input required type="text" />
             <FlexContainer>
               <div>
                 <Titleorder>Начало</Titleorder>
