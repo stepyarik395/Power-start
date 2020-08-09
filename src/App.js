@@ -1,12 +1,20 @@
 import React from 'react';
 import './App.css';
-import { Order } from './Order';
+import { Link, Switch, Route, NavLink } from "react-router-dom";
+import { Main } from "./Main";
+import { Sign } from "./Sign";
+import { Registration } from "./Registration";
+
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <Order />
+        <Switch>
+          <Route exact path='/' component={Main} />
+          <Route path='/login' component={Sign} />
+          <Route path='/register' component={Registration} />
+        </Switch>
       </div>
     );
   }
@@ -14,3 +22,7 @@ class App extends React.Component {
 
 
 export default App;
+
+
+
+
