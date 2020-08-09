@@ -1,8 +1,11 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import styled from 'styled-components'
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import styled from 'styled-components';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
 
 
 const MyMarker = props => {
@@ -15,8 +18,6 @@ const MyMarker = props => {
 
   return <Marker ref={initMarker} {...props} />
 }
-
-
 
 export class Order extends React.Component {
 
@@ -78,12 +79,11 @@ export class Order extends React.Component {
   }
 
   render() {
-    // const latcordinates = this.state.currentPos.lat;
-    // const lancordinates = this.state.currentPos.len;
+    const latcordinates = this.state.currentPos.lat;
+    const lngcordinates = this.state.currentPos.lng;
     const showInpPaymentHour = this.state.showInpPaymentHour;
     const showInpFixPayment = this.state.showInpFixPayment;
     let inpcontainer;
-    //  showInpPaymentHour ? return 
     if (showInpPaymentHour) {
       inpcontainer = <input required type="text" maxLength="3" placeholder="perhour" />
     }
@@ -118,7 +118,9 @@ export class Order extends React.Component {
               {inpcontainer}
             </BlockPayment>
             <br />
-            <label>Поставле указатель для указания кординат </label>
+            <label>Поставте флажек для указания кординат </label>
+            <span>Lat:{latcordinates}</span>
+            <span>Lng:{lngcordinates}</span>
             <Map center={{ lat: 47.82289, lng: 35.19031 }} zoom={10} onClick={this.addMarker}>
               <TileLayer url='https://{s}.tile.osm.org/{z}/{x}/{y}.png' />
               {this.state.currentPos && <MyMarker position={this.state.currentPos}>
@@ -128,6 +130,15 @@ export class Order extends React.Component {
               </MyMarker>}
             </Map>
             <h2>Адресс</h2><input required type="text" />
+            <label>Наличие инструмента</label><input type="checkbox"></input>
+            <label>Возможность транспортировки</label>
+            <input type="checkbox"></input>
+            <label>Номер телефона</label>
+            <PhoneInput
+              country={'us'}
+              value={this.state.phone}
+              onChange={phone => this.setState({ phone })}
+            />
             <FlexContainer>
               <div>
                 <Titleorder>Начало</Titleorder>
